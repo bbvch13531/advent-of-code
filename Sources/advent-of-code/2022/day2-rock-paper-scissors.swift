@@ -2,7 +2,7 @@ import Foundation
 import Algorithms
 import Collections
 
-func day2Answer(path: URL) -> Int {
+func day2Answer(path: URL, part: Int) -> Int {
   let fileContent = try? String(contentsOf: path, encoding: .utf8)
   guard let input = fileContent else { return 0 }
 
