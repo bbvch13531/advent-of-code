@@ -9,8 +9,15 @@ struct AdventOfCode: ParsableCommand {
 	var small: Bool = false
 
   mutating func run() throws {
+		switch day {
+		case 1: print(day1Answer(path: inputPath(day: day, small: small)))
+		case 2: print(day2Answer(path: inputPath(day: day, small: small)))
+		case 3: print(day3Answer(path: inputPath(day: day, small: small)))
+		case 6: print(day6Answer(path: inputPath(day: day, small: small)))
+		default: break
+		}
     if day == 1 {
-      print(day1Answer(path: inputPath(day: day, small: small)))
+      
     } else if day == 2 {
       print(day2Answer(path: inputPath(day: day, small: small)))
 		} else if day == 6 {
