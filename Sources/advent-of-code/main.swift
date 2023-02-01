@@ -19,6 +19,7 @@ struct AdventOfCode: ParsableCommand {
 		case 4: print(day4Answer(path: inputPath(day, small), part: part))
 		case 6: print(day6Answer(path: inputPath(day, small), part: part))
 		case 10: print(day10Answer(path: inputPath(day, small), part: part))
+		case 11: print(day11Answer(path: inputPath(day, small), part: part))
 		default: break
 		}
 	}
