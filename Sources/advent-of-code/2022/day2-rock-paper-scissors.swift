@@ -5,12 +5,12 @@ import Collections
 struct Day2Answer: DayAnswer {
   func partOne(_ input: String) -> String {
     let inputArr = input.components(separatedBy: .newlines)
-    let game = inputArr.reduce(into: [(Opporck, Myrck)]()) { acc, cur in
+    let game = inputArr.reduce(into: [(Opporcp, Myrcp)]()) { acc, cur in
       let choices = cur.split(separator: " ")
       guard let opponent = choices.first,
         let my = choices.last else { return }
-      let opponentChoice = Opporck(rawValue: String(opponent)) ?? .unknown
-      let myChoice = Myrck(rawValue: String(my)) ?? .unknown
+      let opponentChoice = Opporcp(rawValue: String(opponent)) ?? .unknown
+      let myChoice = Myrcp(rawValue: String(my)) ?? .unknown
       acc.append((opponentChoice, myChoice))
     }
 
@@ -22,10 +22,24 @@ struct Day2Answer: DayAnswer {
   }
 
   func partTwo(_ input: String) -> String {
-    return ""
+    let inputArr = input.components(separatedBy: .newlines)
+    let game = inputArr.reduce(into: [(Opporcp, Myrcp)]()) { acc, cur in
+      let choices = cur.split(separator: " ")
+      guard let opponent = choices.first,
+        let my = choices.last else { return }
+      let opponentChoice = Opporcp(rawValue: String(opponent)) ?? .unknown
+      let myChoice = Myrcp(rawValue: String(my)) ?? .unknown
+      acc.append((opponentChoice, myChoice))
+    }
+
+    let result = game.reduce(into: 0) { acc, cur in
+      let (oppo, my) = cur
+      acc += scoringLosingGame(oppo: oppo, my: my)
+    }
+    return String(result)
   }
 
-  func scoringGame(oppo: Opporck, my: Myrck) -> Int {
+  func scoringGame(oppo: Opporcp, my: Myrcp) -> Int {
     var score = 0
     switch my {
     case .X: score += 1
@@ -53,17 +67,58 @@ struct Day2Answer: DayAnswer {
     return score
   }
 
-  enum Opporck: String {
+  func scoringLosingGame(oppo: Opporcp, my: Myrcp) -> Int {
+    var score = 0
+
+    switch my {
+    case .X: score += 0
+    case .Y: score += 3
+    case .Z: score += 6
+    default: break
+    }
+
+    switch my {
+    case .X: // lose
+      switch oppo {
+      case .A: score += 3
+      case .B: score += 1
+      case .C: score += 2
+      default: break
+      }
+
+    case .Y: // draw
+      switch oppo {
+      case .A: score += 1
+      case .B: score += 2
+      case .C: score += 3
+      default: break
+      }
+
+    case .Z: // win
+      switch oppo {
+      case .A: score += 2
+      case .B: score += 3
+      case .C: score += 1
+      default: break
+      }
+
+    default: break
+    }
+
+    return score
+  }
+
+  enum Opporcp: String {
     case A // rock
     case B // paper
     case C // scissors
     case unknown
   }
 
-  enum Myrck: String {
-    case X // rock
-    case Y // paper
-    case Z // scissors
+  enum Myrcp: String {
+    case X // rock / lose
+    case Y // paper / draw
+    case Z // scissors / win
     case unknown
   }
 }

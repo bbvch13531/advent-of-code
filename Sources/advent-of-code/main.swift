@@ -23,11 +23,11 @@ struct AdventOfCode: ParsableCommand {
       print("Resource file does not exist")
       return
     }
-//    if part == 1 {
-//      print(dayAnswer.partOne(input))
-//    } else {
-//      print(dayAnswer.partTwo(input))
-//    }
+    if part == 1 {
+      print(dayAnswer.partOne(input))
+    } else {
+      print(dayAnswer.partTwo(input))
+    }
 //    let url = inputPath(9, false)
 //    let fileContent = try! String(contentsOf: url, encoding: .utf8)
 //    let solution = Day9(input: fileContent)

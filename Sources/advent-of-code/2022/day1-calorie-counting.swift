@@ -14,6 +14,15 @@ struct Day1Answer: DayAnswer {
   }
 
   func partTwo(_ input: String) -> String {
-    return ""
+    let inputarr = input.components(separatedBy: .newlines)
+    let inputstream = readInt2dArr(input: inputarr)
+    let result = inputstream.map { s in
+      s.reduce(0) { a, b in a+b }
+    }
+    .max(count: 3)
+    .reduce(into: 0) { acc, cur in
+      acc += cur
+    }
+    return String(result)
   }
 }
