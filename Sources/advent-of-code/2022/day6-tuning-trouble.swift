@@ -2,23 +2,11 @@ import Foundation
 import Algorithms
 
 struct Day6Answer: DayAnswer {
-  func partOne(_ input: String) -> String {
-    return ""
-  }
-  func partTwo(_ input: String) -> String {
-    return ""
-  }
-  func answer(path: URL, part: Int) -> Int {
-    let fileContent = try? String(contentsOf: path, encoding: .utf8)
-
-    guard let input = fileContent else { return 0 }
-
-    let inputStream = input.components(separatedBy: .newlines)
-    let inputString = inputStream.first ?? ""
-    let res = (0...inputString.count - 4)
+  func numbersOfProcessMessageMarker(input: String, size: Int) -> Int {
+    let res = (0...input.count - size)
     .map {
-      inputString
-        .chunk(ofCount: 4, $0)
+      input
+        .chunk(ofCount: size, $0)
     }
     .enumerated()
     .map { (idx, ele) -> Pair in
@@ -32,10 +20,23 @@ struct Day6Answer: DayAnswer {
       )
     }
     .filter { (idx, ele) in
-      ele.count == 4
+      ele.count == size
     }
 
-    return (res.first?.0 ?? 0) + 4
+    return (res.first?.0 ?? 0)
+  }
+
+  func partOne(_ input: String) -> String {
+    let inputStream = input.components(separatedBy: .newlines)
+    let inputString = inputStream.first ?? ""
+    return String(numbersOfProcessMessageMarker(input: inputString, size: 4))
+  }
+  
+  func partTwo(_ input: String) -> String {
+    let inputStream = input.components(separatedBy: .newlines)
+    let inputString = inputStream.first ?? ""
+
+    return String(numbersOfProcessMessageMarker(input: inputString, size: 14))
   }
 }
 
