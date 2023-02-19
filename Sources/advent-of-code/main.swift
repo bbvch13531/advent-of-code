@@ -5,24 +5,34 @@ struct AdventOfCode: ParsableCommand {
   @Option(name: [.short, .customLong("day")], help: "Day to solve problem")
   var day: Int
 
-	@Flag(name: [.short, .customLong("small")], help: "Small input")
-	var small: Bool = false
-	
-	@Option(name: [.short, .customLong("part")], help: "Part")
-	var part: Int 
+  @Flag(name: [.short, .customLong("small")], help: "Small input")
+  var small: Bool = false
+
+  @Option(name: [.short, .customLong("part")], help: "Part")
+  var part: Int
 
   mutating func run() throws {
-		switch day {
-			case 1: print(day1Answer(path: inputPath(day, small), part: part))
-		case 2: print(day2Answer(path: inputPath(day, small), part: part))
-		case 3: print(day3Answer(path: inputPath(day, small), part: part))
-		case 4: print(day4Answer(path: inputPath(day, small), part: part))
-		case 6: print(day6Answer(path: inputPath(day, small), part: part))
-		case 10: print(day10Answer(path: inputPath(day, small), part: part))
-		case 11: print(day11Answer(path: inputPath(day, small), part: part))
-		default: break
-		}
-	}
+    let factory = DayAnswerFactory()
+    guard let dayAnswer = factory.generate(day: day) else {
+      print("Day\(day) is not found")
+      return
+    }
+//    print(dayAnswer.answer(path: inputPath(day, small), part: part))
+    let path = inputPath(day, small)
+    guard let input = try? String(contentsOf: path, encoding: .utf8) else {
+      print("Resource file does not exist")
+      return
+    }
+//    if part == 1 {
+//      print(dayAnswer.partOne(input))
+//    } else {
+//      print(dayAnswer.partTwo(input))
+//    }
+//    let url = inputPath(9, false)
+//    let fileContent = try! String(contentsOf: url, encoding: .utf8)
+//    let solution = Day9(input: fileContent)
+//    print(solution.partOne())
+  }
 }
 
 AdventOfCode.main()

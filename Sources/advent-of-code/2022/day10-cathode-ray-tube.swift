@@ -4,62 +4,86 @@ import Algorithms
 typealias Step = (cycle: Int, value: Int)
 typealias Row = (sprite: String, value: Int)
 
-func day10Answer(path: URL, part: Int) -> Int {
-  let fileContent = try? String(contentsOf: path, encoding: .utf8)
-  guard let input = fileContent else { return 0 }
-  let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
+struct Day10Answer: DayAnswer {
+  func partOne(_ input: String) -> String {
+    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
 
-	let result = inputStream.map { line in 
-		let splited = line.split(separator: " ")
-		let op = OpCode(rawValue: String(splited[0]), value: Int(splited.last ?? "0") ?? 0)
-		return op
-	}
-	.reduce(into: [Step(cycle: 0, value: 1)]) { acc, cur in
-		guard let last = acc.last else { return }
-		switch cur {
-		case .noop:
-			let current = Step(cycle: last.0 + 1, value: last.1)
-			acc.append(current)
-		case let .addx(value):
-			let current = Step(cycle: last.0 + 2, value: last.1 + value)
-			acc.append(current)
-		default: break
-		}
-	}
-	if part == 1 {
-		let signals = [20, 60, 100, 140, 180, 220]
-		let t1 = signals.map { signal in
-			result.last(where: { (cycle, value) in
-				cycle < signal
-			})
-		}
-		.compactMap { $0 }
-		.map { $0.value }
-		
-		let answer = Array(zip(signals, t1)).map { ele in
-			let s = ele.0
-			let t = ele.1
-			return s * t
-		}.reduce(into: 0) { acc, cur in acc += cur }
-	} else {
+    let result = inputStream.map { line in
+      let splited = line.split(separator: " ")
+      let op = OpCode(rawValue: String(splited[0]), value: Int(splited.last ?? "0") ?? 0)
+      return op
+    }
+    .reduce(into: [Step(cycle: 0, value: 1)]) { acc, cur in
+      guard let last = acc.last else { return }
+      switch cur {
+      case .noop:
+        let current = Step(cycle: last.0 + 1, value: last.1)
+        acc.append(current)
+      case let .addx(value):
+        let current = Step(cycle: last.0 + 2, value: last.1 + value)
+        acc.append(current)
+      default: break
+      }
+    }
 
-		let cycleValues = getValues(result)
-		let screen = cycleValues.reduce(into: [""]) { acc, cur in
-			guard var lastSprite = acc.last else { return } 
-			if [41, 81, 121, 161,201].contains(cur.cycle) {
-				acc.append(lastSprite)
-				acc.append("")
-				lastSprite = ""
-			} else {
-				lastSprite += isBright(cycle: cur.cycle - 1, value: cur.value)
-				var newAcc = acc
-				newAcc[newAcc.count-1] = lastSprite
-				acc = newAcc
-			}
-		}
-		screen.forEach { print("\($0)") }
-	}
-	return 0
+    let signals = [20, 60, 100, 140, 180, 220]
+    let t1 = signals.map { signal in
+      result.last(where: { (cycle, value) in
+        cycle < signal
+      })
+    }
+    .compactMap { $0 }
+    .map { $0.value }
+
+    let answer = Array(zip(signals, t1)).map { ele in
+      let s = ele.0
+      let t = ele.1
+      return s * t
+    }.reduce(into: 0) { acc, cur in acc += cur }
+
+    return String(answer)
+  }
+
+  func partTwo(_ input: String) -> String {
+    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
+
+    let result = inputStream.map { line in
+      let splited = line.split(separator: " ")
+      let op = OpCode(rawValue: String(splited[0]), value: Int(splited.last ?? "0") ?? 0)
+      return op
+    }
+    .reduce(into: [Step(cycle: 0, value: 1)]) { acc, cur in
+      guard let last = acc.last else { return }
+      switch cur {
+      case .noop:
+        let current = Step(cycle: last.0 + 1, value: last.1)
+        acc.append(current)
+      case let .addx(value):
+        let current = Step(cycle: last.0 + 2, value: last.1 + value)
+        acc.append(current)
+      default: break
+      }
+    }
+
+
+    let cycleValues = getValues(result)
+    let screen = cycleValues.reduce(into: [""]) { acc, cur in
+      guard var lastSprite = acc.last else { return }
+      if [41, 81, 121, 161,201].contains(cur.cycle) {
+        acc.append(lastSprite)
+        acc.append("")
+        lastSprite = ""
+      } else {
+        lastSprite += isBright(cycle: cur.cycle - 1, value: cur.value)
+        var newAcc = acc
+        newAcc[newAcc.count-1] = lastSprite
+        acc = newAcc
+      }
+    }
+    screen.forEach { print("\($0)") }
+
+    return ""
+  }
 }
 
 func getValues(_ steps: [Step]) -> [Step] {
