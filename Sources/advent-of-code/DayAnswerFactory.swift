@@ -23,6 +23,8 @@ class DayAnswerFactory {
       return Day9Answer()
     case 11:
       return Day11Answer()
+    case 12:
+      return Day12Answer()
     default:
       return nil
     }

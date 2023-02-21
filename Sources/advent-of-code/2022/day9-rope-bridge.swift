@@ -2,14 +2,6 @@ import Foundation
 
 struct Day9Answer: DayAnswer {
   func partOne(_ input: String) -> String {
-    return ""
-  }
-  func partTwo(_ input: String) -> String {
-    return ""
-  }
-  func answer(path: URL, part: Int) -> Int {
-    let fileContent = try? String(contentsOf: path, encoding: .utf8)
-    guard let input = fileContent else { return 0 }
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
 
     var head = Point(0, 0)
@@ -41,9 +33,10 @@ struct Day9Answer: DayAnswer {
     }
 
     let answer = Array(Set(track))
-    print(answer.count)
-
-    return 0
+    return String(answer.count)
+  }
+  func partTwo(_ input: String) -> String {
+    return ""
   }
 
   func shouldMove(from: Point, to: Point) -> Bool {
