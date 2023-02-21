@@ -17,7 +17,6 @@ struct AdventOfCode: ParsableCommand {
       print("Day\(day) is not found")
       return
     }
-//    print(dayAnswer.answer(path: inputPath(day, small), part: part))
     let path = inputPath(day, small)
     guard let input = try? String(contentsOf: path, encoding: .utf8) else {
       print("Resource file does not exist")
@@ -28,10 +27,6 @@ struct AdventOfCode: ParsableCommand {
     } else {
       print(dayAnswer.partTwo(input))
     }
-//    let url = inputPath(9, false)
-//    let fileContent = try! String(contentsOf: url, encoding: .utf8)
-//    let solution = Day9(input: fileContent)
-//    print(solution.partOne())
   }
 }
 

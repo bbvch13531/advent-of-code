@@ -3,9 +3,9 @@ import Algorithms
 
 struct Day3Answer: DayAnswer {
   func partOne(_ input: String) -> String {
-    let inputArr = input.components(separatedBy: .newlines)
+    let inputStream = input.components(separatedBy: .newlines)
 
-    let commonChars = inputArr
+    let commonChars = inputStream
       .filter { $0.count != 0 }
       .map { word in
         let test = word.chunks(ofCount: word.count/2)
