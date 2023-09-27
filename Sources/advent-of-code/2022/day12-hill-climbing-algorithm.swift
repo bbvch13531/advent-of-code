@@ -74,16 +74,13 @@ struct Day12Answer: DayAnswer {
 
     var check = Array(repeating: Array(repeating: Int.max, count: M), count: N)
 
-    var start = Point.none
     var end = Point.none
 
     var startingPoints = [Point]()
 
     map.forEach { row in
       row.forEach { p in
-        if p.val == -1 {
-          start = p
-        } else if p.val == 9999 {
+        if p.val == 9999 {
           end = p
         } else if p.val == 0 {
           startingPoints.append(p)

@@ -24,4 +24,3 @@ func readStringArr() -> [String] {
 
   return input
 }
-
