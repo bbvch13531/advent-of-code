@@ -10,7 +10,7 @@ struct AdventOfCode: ParsableCommand {
   var small: Bool = false
 
   @Option(name: [.short, .customLong("part")], help: "Part")
-  var part: Int
+  var part: Int = 1
 
   mutating func run() throws {
     let factory = DayAnswerFactory()

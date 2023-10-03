@@ -1,11 +1,45 @@
 import Foundation
 import RegexBuilder
 
-struct Day14Answer: DayAnswer {
+private struct Point {
+  let x: Int
+  let y: Int
 
+  init(_ x: Int, _ y: Int) {
+    self.x = x
+    self.y = y
+  }
+
+  func nextDownLeft() -> Point {
+    return Point(self.x + 1, self.y - 1)
+  }
+
+  func nextDownRight() -> Point {
+    return Point(self.x + 1, self.y + 1)
+  }
+}
+
+extension Point: Hashable {
+  static func == (lhs: Point, rhs: Point) -> Bool {
+    return lhs.x == rhs.x && lhs.y == rhs.y
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(x)
+    hasher.combine(y)
+  }
+}
+
+private enum Land: Int {
+  case air = 0
+  case rock = 1
+  case sand = 2
+}
+
+struct Day14Answer: DayAnswer {
   func partOne(_ input: String) -> String {
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-    var map = Array(repeating: Array(repeating: 0, count: 800), count: 300)
+    var map = Array(repeating: Array(repeating: Land.air, count: 800), count: 300)
 
     var N = 0
     var minM = Int.max
@@ -28,52 +62,61 @@ struct Day14Answer: DayAnswer {
     }
 
     while true {
-      let next = fallenSandPosition(map)
-      map[next.x][next.y] = 2
+      let next = fallenSandPosition(map, N)
+      if next.x == N {
+        break
+      }
+      map[next.x][next.y] = .sand
 
-      printMap(map, 0...N+1, minM-1...maxM)
+//      printMap(map, 0...N+1, minM-1...maxM)
     }
-    return ""
+
+    var count = 0
+    for i in 0...N+1 {
+      for j in minM-1...maxM {
+        if map[i][j] == .sand {
+          count += 1
+        }
+      }
+    }
+    return "\(count)"
   }
 
   func partTwo(_ input: String) -> String {
     return ""
   }
 
-  func isFallingIntoAbyss() -> Bool {
-    return true
-  }
-
-  func fallenSandPosition(_ map: [[Int]]) -> Point {
-    let start = Point(0, 500)
+  private func fallenSandPosition(_ map: [[Land]], _ maxN: Int) -> Point {
+    var cur = Point(0, 500)
 
     var i = 0
-    while map[i+1][start.y] == 0 {
-      i += 1
-    }
 
-    var sand = Point(i, start.y)
-    var j = 0
-    if map[i+1][sand.y] == 2 {
-      j += 1
-      i += 1
-      while map[i+1][sand.y - j - 1] == 2 {
-        j += 1
+    while i <= maxN {
+      var prev = cur
+      if map[i][cur.y] == .air {
+        cur = Point(i, cur.y)
+      } else if map[i][cur.y - 1] == .air  {
+        cur = Point(i, cur.y - 1)
+      } else if map[i][cur.y + 1] == .air  {
+        cur = Point(i, cur.y + 1)
       }
-      print(i, sand.y - j)
-    }
 
-    return Point(i, sand.y - j)
+      if i != 0 && cur == prev {
+        return cur
+      }
+      i += 1
+    }
+    return cur
   }
 
-  func printMap(_ map: [[Int]], _ xRange: ClosedRange<Int>, _ yRange: ClosedRange<Int>) {
+  private func printMap(_ map: [[Land]], _ xRange: ClosedRange<Int>, _ yRange: ClosedRange<Int>) {
     for i in xRange {
       for j in yRange {
-        if map[i][j] == 0 {
+        if map[i][j] == .air {
           print(".", terminator: "")
-        } else if map[i][j] == 1 {
+        } else if map[i][j] == .rock {
           print("#", terminator: "")
-        }  else if map[i][j] == 2 {
+        }  else if map[i][j] == .sand {
           print("o", terminator: "")
         }
       }
@@ -83,31 +126,31 @@ struct Day14Answer: DayAnswer {
     print("--------")
   }
 
-  func drawLine(_ map: inout [[Int]], _ s: Point, _ e: Point) {
+  private func drawLine(_ map: inout [[Land]], _ s: Point, _ e: Point) {
     if s.x == e.x {
       if s.y > e.y {
         for i in e.y...s.y {
-          map[s.x][i] = 1
+          map[s.x][i] = .rock
         }
       } else {
         for i in s.y...e.y {
-          map[s.x][i] = 1
+          map[s.x][i] = .rock
         }
       }
     } else if s.y == e.y {
       if s.x > e.x {
         for i in e.x...s.x {
-          map[i][s.y] = 1
+          map[i][s.y] = .rock
         }
       } else {
         for i in s.x...e.x {
-          map[i][s.y] = 1
+          map[i][s.y] = .rock
         }
       }
     }
   }
 
-  func parseInput(_ input: String) -> [Point] {
+  private func parseInput(_ input: String) -> [Point] {
     let coordinateRegex = Regex {
       TryCapture {
         OneOrMore(.digit)
@@ -125,26 +168,6 @@ struct Day14Answer: DayAnswer {
     let matches = input.matches(of: coordinateRegex)
     return matches.map {
       Point($0.2, $0.1)
-    }
-  }
-
-  struct Point: Hashable {
-    let x: Int
-    let y: Int
-
-    init(_ x: Int, _ y: Int) {
-      self.x = x
-      self.y = y
-    }
-
-    static func == (lhs: Point, rhs: Point) -> Bool {
-      return lhs.x == rhs.x
-      && lhs.y == rhs.y
-    }
-
-    func hash(into hasher: inout Hasher) {
-      hasher.combine(x)
-      hasher.combine(y)
     }
   }
 }
