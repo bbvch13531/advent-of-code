@@ -1,98 +1,76 @@
 import Foundation
-import RegexBuilder
+import Algorithms
 
-//protocol Value { }
-//extension Packet: Value { }
-//extension Array: Value where Element == Int { }
-struct Packet {
-  var value: [Any]
+private enum Packet {
+  case int(Int)
+  case list([Packet])
+
+  init(_ value: Any) {
+    if let intValue = value as? Int {
+      self = .int(intValue)
+    } else if let listValue = value as? [Packet] {
+      self = .list(listValue)
+    }
+    self = .int(-1)
+  }
+}
+
+extension Packet: Comparable {
+  static func < (lhs: Packet, rhs: Packet) -> Bool {
+    switch (lhs, rhs) {
+    case let (.int(lValue), .int(rValue)):
+      return lValue < rValue
+
+    case let (.list(lList), .list(rList)):
+      for zipped in zip(lList, rList) {
+        if zipped.0 < zipped.1 { return true }
+        if zipped.0 > zipped.1 { return false }
+      }
+      return lList.count < rList.count
+
+    case (.int, .list):
+      return .list([lhs]) < rhs
+
+    case (.list, .int):
+      return lhs < .list([rhs])
+    }
+  }
+}
+
+extension Packet: Decodable {
+  init(from decoder: Decoder) throws {
+    do {
+      let c = try decoder.singleValueContainer()
+      self = .int(try c.decode(Int.self))
+    } catch {
+      self = .list(try [Packet](from: decoder))
+    }
+  }
 }
 
 struct Day13Answer: DayAnswer {
   func partOne(_ input: String) -> String {
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
     let pairs = inputStream.chunks(ofCount: 2)
-//    pairs.forEach { pair in
-//      if let left = pair.first, let right = pair.first {
-//        print("left", left)
-//        print("right", right)
-//        
-//        let order = compare(left, right)
-//      }
-//    }
-    let str = "[1,[2,3]]"
-    let p = parse(str, 0, packet: Packet(value: []))
-    print(p)
+    let decoder = JSONDecoder()
+    let res = pairs.enumerated().map { idx, pair in
+      if let left = pair.first, let right = pair.last {
+        let leftPacket = try! decoder.decode(Packet.self, from: left.data(using: .utf8)!)
+        let rightPacket = try! decoder.decode(Packet.self, from: right.data(using: .utf8)!)
+//        print(leftPacket)
+//        print(rightPacket)
+
+        if leftPacket < rightPacket {
+          return idx + 1
+        }
+      }
+      return 0
+    }.reduce(0, +)
+    print(res)
     return ""
   }
 
   func partTwo(_ input: String) -> String {
     return ""
-  }
-
-  func parse( _ str: String, _ idx: Int, packet: Packet) -> Packet {
-    var result = packet
-    var i = idx
-    let strArray = Array(str)
-
-    while i != str.count {
-      let ch = strArray[i]
-      if ch == "]" {
-        return result
-      } else if ch == "[" {
-        let p = parse(str, i + 1, packet: result)
-        result.value.append(p)
-      } else if ch != "," { // number
-        result.value.append(ch)
-      }
-      i += 1
-    }
-//    guard idx != str.count else {
-//    }
-    return result
-  }
-
-  func compare(_ lhs: String, _ rhs: String) -> Int {
-    var idx = 0
-    var len = min(lhs.count, rhs.count)
-
-    while idx < len {
-      let lch = Array(lhs)[idx]
-      let rch = Array(rhs)[idx]
-
-      let lValue = Int(lch.asciiValue ?? 0)
-      let rValue = Int(rch.asciiValue ?? 0)
-
-      if isNumeric(value: lValue) && isNumeric(value: rValue) {
-        if lValue > rValue {
-          // wrong order
-          return -1
-        } else if lValue < rValue {
-          return 1
-        }
-        idx += 1
-        continue
-      }
-
-      if lValue == 91 { // [
-        
-      } else if lValue == 93 { // ]
-
-      } else if lValue == 44 { // ,
-
-      } else {
-
-      }
-      idx += 1
-    }
-
-    return 0
-  }
-
-  func isNumeric(value: Int) -> Bool {
-    if 48 <= value && value <= 57 {
-      return true
-    }
-    return false
   }
 }
