@@ -1,5 +1,6 @@
 import Foundation
 import ArgumentParser
+import advent_of_code
 
 struct AdventOfCode: ParsableCommand {
   @Option(name: [.short, .customLong("day")], help: "Day to solve problem")
@@ -18,7 +19,7 @@ struct AdventOfCode: ParsableCommand {
       return
     }
     let path = inputPath(day, small)
-    guard let input = try? String(contentsOf: path, encoding: .utf8) else {
+    guard let input = try? String(contentsOfFile: path, encoding: .utf8) else {
       print("Resource file does not exist")
       return
     }

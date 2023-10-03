@@ -1,7 +1,8 @@
 import Foundation
 
-class DayAnswerFactory {
-  func generate(day: Int) -> DayAnswer? {
+public class DayAnswerFactory {
+  public init() { }
+  public func generate(day: Int) -> DayAnswer? {
     switch day {
     case 1:
       return Day1Answer()
@@ -25,6 +26,8 @@ class DayAnswerFactory {
       return Day11Answer()
     case 12:
       return Day12Answer()
+    case 13:
+      return Day13Answer()
     case 14:
       return Day14Answer()
     default:
