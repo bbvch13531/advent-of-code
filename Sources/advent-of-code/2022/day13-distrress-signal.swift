@@ -66,11 +66,23 @@ struct Day13Answer: DayAnswer {
       }
       return 0
     }.reduce(0, +)
-    print(res)
-    return ""
+
+    return "\(res)"
   }
 
   func partTwo(_ input: String) -> String {
-    return ""
+    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
+    let decoder = JSONDecoder()
+    var packets = inputStream.map { packet in
+        let packet = try! decoder.decode(Packet.self, from: packet.data(using: .utf8)!)
+        return packet
+    }
+    let firstPacket = Packet.list([.list([.int(2)])])
+    let secondPacket = Packet.list([.list([.int(6)])])
+    packets.append(contentsOf: [firstPacket, secondPacket])
+    let sorted = packets.sorted()
+    let firstIdx = sorted.firstIndex(of: firstPacket)! + 1
+    let secondIdx = sorted.firstIndex(of: secondPacket)! + 1
+    return "\(firstIdx * secondIdx)"
   }
 }

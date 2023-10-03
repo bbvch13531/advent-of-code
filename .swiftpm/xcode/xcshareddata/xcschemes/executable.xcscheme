@@ -85,7 +85,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--part 1"
+            argument = "--part 2"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
