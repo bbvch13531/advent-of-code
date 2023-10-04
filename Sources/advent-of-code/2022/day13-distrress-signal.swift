@@ -49,10 +49,16 @@ extension Packet: Decodable {
 }
 
 struct Day13Answer: DayAnswer {
-  func partOne(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-    let pairs = inputStream.chunks(ofCount: 2)
-    let decoder = JSONDecoder()
+  let inputStream: [String]
+  let pairs: ChunksOfCountCollection<[String]>
+  let decoder = JSONDecoder()
+
+  init(_ input: String) {
+    self.inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
+    self.pairs = inputStream.chunks(ofCount: 2)
+  }
+
+  func partOne() -> String {
     let res = pairs.enumerated().map { idx, pair in
       if let left = pair.first, let right = pair.last {
         let leftPacket = try! decoder.decode(Packet.self, from: left.data(using: .utf8)!)
@@ -70,9 +76,7 @@ struct Day13Answer: DayAnswer {
     return "\(res)"
   }
 
-  func partTwo(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-    let decoder = JSONDecoder()
+  func partTwo() -> String {
     var packets = inputStream.map { packet in
         let packet = try! decoder.decode(Packet.self, from: packet.data(using: .utf8)!)
         return packet

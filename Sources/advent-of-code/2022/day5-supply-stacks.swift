@@ -2,11 +2,20 @@ import Algorithms
 import Foundation
 import RegexBuilder
 
-struct Day5Answer: DayAnswer {
-  func partOne(_ input: String) -> String {
-    let inputArr = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-    var (stacks, procedures) = parseInput(inputArr)
+typealias Procedure = (n: Int, from: Int, to: Int)
 
+class Day5Answer: DayAnswer {
+  var stacks: [Stack<Character>]
+  let procedures: [Procedure]
+
+  required init(_ input: String) {
+    let inputArr = input.components(separatedBy: .newlines).filter { $0.count != 0 }
+    let (stacks, procedures) = parseInput(inputArr)
+    self.stacks = stacks
+    self.procedures = procedures
+  }
+
+  func partOne() -> String {
     procedures.forEach { procedure in
       for _ in 0..<procedure.n {
         if let s = stacks[procedure.from - 1].pop() {
@@ -25,10 +34,7 @@ struct Day5Answer: DayAnswer {
     return String(answer)
   }
 
-  func partTwo(_ input: String) -> String {
-    let inputArr = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-    var (stacks, procedures) = parseInput(inputArr)
-
+  func partTwo() -> String {
     procedures.forEach { procedure in
       var tempStack = Stack<Character>()
       for _ in 0..<procedure.n {
@@ -89,8 +95,6 @@ struct Stack<T> {
     print("-----------")
   }
 }
-
-typealias Procedure = (n: Int, from: Int, to: Int)
 
 private func parseInput(_ inputArr: [String]) -> ([Stack<Character>], [Procedure]) {
   let partitions = inputArr.chunked(on: { $0.contains("move") })

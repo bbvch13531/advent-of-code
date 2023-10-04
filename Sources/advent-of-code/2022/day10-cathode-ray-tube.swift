@@ -5,10 +5,12 @@ typealias Step = (cycle: Int, value: Int)
 typealias Row = (sprite: String, value: Int)
 
 struct Day10Answer: DayAnswer {
-  func partOne(_ input: String) -> String {
+  var result = [Step(cycle: 0, value: 1)]
+
+  init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
 
-    let result = inputStream.map { line in
+    self.result = inputStream.map { line in
       let splited = line.split(separator: " ")
       let op = OpCode(rawValue: String(splited[0]), value: Int(splited.last ?? "0") ?? 0)
       return op
@@ -25,7 +27,9 @@ struct Day10Answer: DayAnswer {
       default: break
       }
     }
+  }
 
+  func partOne() -> String {
     let signals = [20, 60, 100, 140, 180, 220]
     let t1 = signals.map { signal in
       result.last(where: { (cycle, value) in
@@ -44,28 +48,7 @@ struct Day10Answer: DayAnswer {
     return String(answer)
   }
 
-  func partTwo(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-
-    let result = inputStream.map { line in
-      let splited = line.split(separator: " ")
-      let op = OpCode(rawValue: String(splited[0]), value: Int(splited.last ?? "0") ?? 0)
-      return op
-    }
-    .reduce(into: [Step(cycle: 0, value: 1)]) { acc, cur in
-      guard let last = acc.last else { return }
-      switch cur {
-      case .noop:
-        let current = Step(cycle: last.0 + 1, value: last.1)
-        acc.append(current)
-      case let .addx(value):
-        let current = Step(cycle: last.0 + 2, value: last.1 + value)
-        acc.append(current)
-      default: break
-      }
-    }
-
-
+  func partTwo() -> String {
     let cycleValues = getValues(result)
     let screen = cycleValues.reduce(into: [""]) { acc, cur in
       guard var lastSprite = acc.last else { return }

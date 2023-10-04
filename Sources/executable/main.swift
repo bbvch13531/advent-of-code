@@ -14,19 +14,20 @@ struct AdventOfCode: ParsableCommand {
 
   mutating func run() throws {
     let factory = DayAnswerFactory()
-    guard let dayAnswer = factory.generate(day: day) else {
-      print("Day\(day) is not found")
-      return
-    }
+
     let path = inputPath(day, small)
     guard let input = try? String(contentsOfFile: path, encoding: .utf8) else {
       print("Resource file does not exist")
       return
     }
+    guard let dayAnswer = factory.generate(day: day, input: input) else {
+      print("Day\(day) is not found")
+      return
+    }
     if part == 1 {
-      print(dayAnswer.partOne(input))
+      print(dayAnswer.partOne())
     } else {
-      print(dayAnswer.partTwo(input))
+      print(dayAnswer.partTwo())
     }
   }
 }

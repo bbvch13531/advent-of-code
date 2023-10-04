@@ -2,8 +2,7 @@ import Foundation
 import Algorithms
 import RegexBuilder
 
-struct Day11Answer: DayAnswer {
-
+final class Day11Answer: DayAnswer {
   struct Monkey {
     let id: Int
     var items: [Int]
@@ -15,11 +14,14 @@ struct Day11Answer: DayAnswer {
     let testFalse: Int
   }
 
-  func partOne(_ input: String) -> String {
+  var monkeys: [Monkey]
+
+  init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
+    self.monkeys = Day11Answer.parseInput(inputStream)
+  }
 
-    var monkeys = parseInput(inputStream)
-
+  func partOne() -> String {
     var inspectCount = Array(repeating: 0, count: monkeys.count)
     let transform = { x in x / 3 }
 
@@ -51,11 +53,7 @@ struct Day11Answer: DayAnswer {
     return String(inspectCount.max(count: 2).reduce(1, *))
   }
 
-  func partTwo(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-
-    var monkeys = parseInput(inputStream)
-
+  func partTwo() -> String {
     var inspectCount = Array(repeating: 0, count: monkeys.count)
     let leastCommonMultiplier = monkeys.reduce(into: 1) { acc, cur in
       acc = lcm(acc, cur.testDivisor)
@@ -120,7 +118,7 @@ struct Day11Answer: DayAnswer {
     return x / gcd(x, y) * y
   }
 
-  func parseInput(_ inputStream: [String]) -> [Monkey] {
+  static func parseInput(_ inputStream: [String]) -> [Monkey] {
     let digitRegex = Regex {
       TryCapture {
         OneOrMore(.digit)

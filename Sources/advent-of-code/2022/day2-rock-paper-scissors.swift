@@ -3,9 +3,11 @@ import Algorithms
 import Collections
 
 struct Day2Answer: DayAnswer {
-  func partOne(_ input: String) -> String {
+  let game: [(Opporcp, Myrcp)]
+
+  init(_ input: String) {
     let inputArr = input.components(separatedBy: .newlines)
-    let game = inputArr.reduce(into: [(Opporcp, Myrcp)]()) { acc, cur in
+    self.game = inputArr.reduce(into: [(Opporcp, Myrcp)]()) { acc, cur in
       let choices = cur.split(separator: " ")
       guard let opponent = choices.first,
         let my = choices.last else { return }
@@ -13,26 +15,17 @@ struct Day2Answer: DayAnswer {
       let myChoice = Myrcp(rawValue: String(my)) ?? .unknown
       acc.append((opponentChoice, myChoice))
     }
-
-    let result = game.reduce(into: 0) { acc, cur in
+  }
+  func partOne() -> String {
+    let result = self.game.reduce(into: 0) { acc, cur in
       let (oppo, my) = cur
       acc += scoringGame(oppo: oppo, my: my)
     }
     return String(result)
   }
 
-  func partTwo(_ input: String) -> String {
-    let inputArr = input.components(separatedBy: .newlines)
-    let game = inputArr.reduce(into: [(Opporcp, Myrcp)]()) { acc, cur in
-      let choices = cur.split(separator: " ")
-      guard let opponent = choices.first,
-        let my = choices.last else { return }
-      let opponentChoice = Opporcp(rawValue: String(opponent)) ?? .unknown
-      let myChoice = Myrcp(rawValue: String(my)) ?? .unknown
-      acc.append((opponentChoice, myChoice))
-    }
-
-    let result = game.reduce(into: 0) { acc, cur in
+  func partTwo() -> String {
+    let result = self.game.reduce(into: 0) { acc, cur in
       let (oppo, my) = cur
       acc += scoringLosingGame(oppo: oppo, my: my)
     }

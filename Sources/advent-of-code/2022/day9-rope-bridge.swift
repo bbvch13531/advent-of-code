@@ -1,9 +1,14 @@
 import Foundation
 
 struct Day9Answer: DayAnswer {
-  func partOne(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
+  let inputStream: [String]
 
+  init(_ input: String) {
+    self.inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
+  }
+
+  func partOne() -> String {
+//    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
     var head = Point(0, 0)
     var tail = Point(0, 0)
     var track = [Point]()
@@ -35,7 +40,8 @@ struct Day9Answer: DayAnswer {
     let answer = Array(Set(track))
     return String(answer.count)
   }
-  func partTwo(_ input: String) -> String {
+
+  func partTwo() -> String {
     return ""
   }
 

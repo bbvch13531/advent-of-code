@@ -2,19 +2,28 @@ import Algorithms
 import Collections
 import Foundation
 
-struct Day12Answer: DayAnswer {
-  func partOne(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
+class Day12Answer: DayAnswer {
+  let inputStream: [String]
+  var start = PointValue.none
+  var end = PointValue.none
 
+  let dx = [-1, 0, 1, 0]
+  let dy = [0, 1, 0, -1]
+
+  var queue = [PointValue]()
+  var answer = 0
+
+  required init(_ input: String) {
+    self.inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
+  }
+
+  func partOne() -> String {
     let map = parseInput(inputStream)
 
     let N = map.count
     let M = map[0].count
 
     var check = Array(repeating: Array(repeating: Int.max, count: M), count: N)
-
-    var start = Point.none
-    var end = Point.none
 
     map.forEach { row in
       row.forEach { p in
@@ -25,12 +34,7 @@ struct Day12Answer: DayAnswer {
         }
       }
     }
-    var answer = 0
 
-    let dx = [-1, 0, 1, 0]
-    let dy = [0, 1, 0, -1]
-
-    var queue = [Point]()
     queue.append(start)
 
     check[start.x][start.y] = 0
@@ -64,9 +68,7 @@ struct Day12Answer: DayAnswer {
     return String(answer)
   }
 
-  func partTwo(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-
+  func partTwo() -> String {
     let map = parseInput(inputStream)
 
     let N = map.count
@@ -74,9 +76,7 @@ struct Day12Answer: DayAnswer {
 
     var check = Array(repeating: Array(repeating: Int.max, count: M), count: N)
 
-    var end = Point.none
-
-    var startingPoints = [Point]()
+    var startingPoints = [PointValue]()
 
     map.forEach { row in
       row.forEach { p in
@@ -88,12 +88,8 @@ struct Day12Answer: DayAnswer {
         }
       }
     }
-    var answer = 0
 
-    let dx = [-1, 0, 1, 0]
-    let dy = [0, 1, 0, -1]
-
-    var queue = [Point]()
+    var queue = [PointValue]()
     queue.append(contentsOf: startingPoints)
 
     while !queue.isEmpty {
@@ -140,44 +136,18 @@ struct Day12Answer: DayAnswer {
     print("------------------------")
   }
 
-  func parseInput(_ input: [String]) -> [[Point]] {
+  func parseInput(_ input: [String]) -> [[PointValue]] {
     input.enumerated().map { row in
       row.element.enumerated().map { (idx, ch) in
         if ch == "S" {
-          return Point(row.offset, idx, -1)
+          return PointValue(row.offset, idx, -1)
         } else if ch == "E" {
-          return Point(row.offset, idx, 9999)
+          return PointValue(row.offset, idx, 9999)
         } else {
           let val = Int(ch.asciiValue! - Character("a").asciiValue!)
-          return Point(row.offset, idx, val)
+          return PointValue(row.offset, idx, val)
         }
       }
     }
-  }
-
-  struct Point: Hashable {
-    let x: Int
-    let y: Int
-    let val: Int
-
-    init(_ x: Int, _ y: Int, _ val: Int) {
-      self.x = x
-      self.y = y
-      self.val = val
-    }
-
-    static func == (lhs: Point, rhs: Point) -> Bool {
-      return lhs.x == rhs.x
-      && lhs.y == rhs.y
-      && lhs.val == rhs.val
-    }
-
-    func hash(into hasher: inout Hasher) {
-      hasher.combine(x)
-      hasher.combine(y)
-      hasher.combine(val)
-    }
-
-    static let none = Point(0, 0, 0)
   }
 }

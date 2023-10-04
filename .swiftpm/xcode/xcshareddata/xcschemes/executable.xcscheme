@@ -78,7 +78,7 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "--small"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--day 14"
@@ -86,6 +86,10 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--part 2"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--part 1"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

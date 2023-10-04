@@ -1,6 +1,7 @@
 import Foundation
 
 public protocol DayAnswer {
-  func partOne(_ input: String) -> String
-  func partTwo(_ input: String) -> String
+  init(_ input: String)
+  func partOne() -> String
+  func partTwo() -> String
 }

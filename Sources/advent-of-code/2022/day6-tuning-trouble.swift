@@ -2,6 +2,13 @@ import Foundation
 import Algorithms
 
 struct Day6Answer: DayAnswer {
+  let inputString: String
+
+  init(_ input: String) {
+    let inputStream = input.components(separatedBy: .newlines)
+    self.inputString = inputStream.first ?? ""
+  }
+
   func numbersOfProcessMessageMarker(input: String, size: Int) -> Int {
     let res = (0...input.count - size)
     .map {
@@ -26,16 +33,11 @@ struct Day6Answer: DayAnswer {
     return (res.first?.0 ?? 0)
   }
 
-  func partOne(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines)
-    let inputString = inputStream.first ?? ""
+  func partOne() -> String {
     return String(numbersOfProcessMessageMarker(input: inputString, size: 4))
   }
   
-  func partTwo(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines)
-    let inputString = inputStream.first ?? ""
-
+  func partTwo() -> String {
     return String(numbersOfProcessMessageMarker(input: inputString, size: 14))
   }
 }

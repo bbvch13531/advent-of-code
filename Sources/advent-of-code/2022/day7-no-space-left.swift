@@ -2,53 +2,19 @@ import Algorithms
 import Foundation
 import RegexBuilder
 
-struct Day7Answer: DayAnswer {
-  let cmdRegex = Regex {
-    "$"
-    One(.whitespace)
-    TryCapture {
-      OneOrMore(.word)
-    } transform: { match in
-      String(match)
-    }
-    ZeroOrMore(.whitespace)
-    TryCapture {
-      ZeroOrMore(.any)
-    } transform: { match in
-      String(match)
-    }
-  }
-  let dirRegex = Regex {
-    "dir"
-    One(.whitespace)
-    TryCapture {
-      OneOrMore(.anyNonNewline)
-    } transform: { match in
-      String(match)
-    }
-  }
-  let fileRegex = Regex {
-    TryCapture {
-      OneOrMore(.digit)
-    } transform: { match in
-      Int(match)
-    }
-    One(.whitespace)
-    TryCapture {
-      OneOrMore(.anyNonNewline)
-    } transform: { match in
-      String(match)
-    }
-  }
+class Day7Answer: DayAnswer {
+  let root: Directory
+  var queue: [Directory]
+  var dirSizes = [Int]()
 
-  func partOne(_ input: String) -> String {
+  required init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines)
 
-    let root = buildDirectory(input: inputStream)
+    self.root = Day7Answer.buildDirectory(input: inputStream)
+    self.queue = [Directory](arrayLiteral: root)
+  }
 
-    var queue = [Directory](arrayLiteral: root)
-    var dirSizes = [Int]()
-
+  func partOne() -> String {
     while(!queue.isEmpty) {
       let cur = queue.removeFirst()
       dirSizes.append(cur.totalSize())
@@ -64,14 +30,7 @@ struct Day7Answer: DayAnswer {
     return String(answer)
   }
 
-  func partTwo(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines)
-
-    let root = buildDirectory(input: inputStream)
-
-    var queue = [Directory](arrayLiteral: root)
-    var dirSizes = [Int]()
-
+  func partTwo() -> String {
     while(!queue.isEmpty) {
       let cur = queue.removeFirst()
       dirSizes.append(cur.totalSize())
@@ -92,7 +51,45 @@ struct Day7Answer: DayAnswer {
     return String(answer)
   }
 
-  func buildDirectory(input: [String]) -> Directory {
+  static func buildDirectory(input: [String]) -> Directory {
+    let cmdRegex = Regex {
+      "$"
+      One(.whitespace)
+      TryCapture {
+        OneOrMore(.word)
+      } transform: { match in
+        String(match)
+      }
+      ZeroOrMore(.whitespace)
+      TryCapture {
+        ZeroOrMore(.any)
+      } transform: { match in
+        String(match)
+      }
+    }
+    let dirRegex = Regex {
+      "dir"
+      One(.whitespace)
+      TryCapture {
+        OneOrMore(.anyNonNewline)
+      } transform: { match in
+        String(match)
+      }
+    }
+    let fileRegex = Regex {
+      TryCapture {
+        OneOrMore(.digit)
+      } transform: { match in
+        Int(match)
+      }
+      One(.whitespace)
+      TryCapture {
+        OneOrMore(.anyNonNewline)
+      } transform: { match in
+        String(match)
+      }
+    }
+    
     var dirHistory = [Directory]()
     let root = Directory(name: "/")
     var currentDir = root

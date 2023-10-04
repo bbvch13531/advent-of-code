@@ -2,10 +2,14 @@ import Foundation
 import Algorithms
 
 struct Day3Answer: DayAnswer {
-  func partOne(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines)
+  let inputArr: [String]
 
-    let commonChars = inputStream
+  init(_ input: String) {
+    self.inputArr =  input.components(separatedBy: .newlines)
+  }
+
+  func partOne() -> String {
+    let commonChars = inputArr
       .filter { $0.count != 0 }
       .map { word in
         let test = word.chunks(ofCount: word.count/2)
@@ -20,31 +24,19 @@ struct Day3Answer: DayAnswer {
             c1 == c2
           }
         }
-        .filter { $0 != "" }
+          .filter { $0 != "" }
         let commonChar = char.first ?? ""
         return Array(Set(commonChar))
       }
       .map { $0.first }
       .compactMap { $0 }
-      .map { (char: Character) -> Int in
-        let lowercase = Character("a").asciiValue! ... Character("z").asciiValue!
-        let uppercase = Character("A").asciiValue! ... Character("Z").asciiValue!
-        if lowercase.contains(char.asciiValue!) {
-          return Int(char.asciiValue! - Character("a").asciiValue! + 1)
-        } else if uppercase.contains(char.asciiValue!) {
-          return Int(char.asciiValue! - Character("A").asciiValue! + 27)
-        }
-        return 0
-      }
-    let res = commonChars.reduce(into: 0) { acc, cur in
-      acc += cur
-    }
-    return String(res)
+      .map(toggleCase)
+    
+    let score = commonChars.reduce(0, +)
+    return String(score)
   }
 
-  func partTwo(_ input: String) -> String {
-    let inputArr = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-
+  func partTwo() -> String {
     let answer = inputArr.chunks(ofCount: 3)
       .reduce(into: 0) { acc, words in
         let commonChar = words.reduce(into: Set<Character>()) { acc, cur in
@@ -55,19 +47,22 @@ struct Day3Answer: DayAnswer {
           } else {
             acc.formIntersection(set)
           }
-        }.map { (char: Character) -> Int in
-          let lowercase = Character("a").asciiValue! ... Character("z").asciiValue!
-          let uppercase = Character("A").asciiValue! ... Character("Z").asciiValue!
-          if lowercase.contains(char.asciiValue!) {
-            return Int(char.asciiValue! - Character("a").asciiValue! + 1)
-          } else if uppercase.contains(char.asciiValue!) {
-            return Int(char.asciiValue! - Character("A").asciiValue! + 27)
-          }
-          return 0
-        }
+        }.map(toggleCase)
         let score = commonChar.reduce(0, +)
         acc += score
       }
     return String(answer)
   }
+
+  func toggleCase(_ char: Character) -> Int {
+    let lowercase = Character("a").asciiValue! ... Character("z").asciiValue!
+    let uppercase = Character("A").asciiValue! ... Character("Z").asciiValue!
+    if lowercase.contains(char.asciiValue!) {
+      return Int(char.asciiValue! - Character("a").asciiValue! + 1)
+    } else if uppercase.contains(char.asciiValue!) {
+      return Int(char.asciiValue! - Character("A").asciiValue! + 27)
+    }
+    return 0
+  }
 }
+

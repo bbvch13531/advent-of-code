@@ -1,13 +1,19 @@
 import Foundation
 
 struct Day8Answer: DayAnswer {
-  func partOne(_ input: String) -> String {
+  let treeMap: [[Int]]
+  let rowCount: Int
+  let colCount: Int
+
+  init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
 
-    let treeMap = buildTreeMap(input: inputStream)
-    let rowCount = treeMap.count
-    let colCount = treeMap[0].count
+    self.treeMap = buildTreeMap(input: inputStream)
+    self.rowCount = treeMap.count
+    self.colCount = treeMap[0].count
+  }
 
+  func partOne() -> String {
     var answer = 0
     treeMap.enumerated().forEach { row in
       row.element.enumerated().forEach { col in
@@ -23,13 +29,7 @@ struct Day8Answer: DayAnswer {
     return String(answer)
   }
 
-  func partTwo(_ input: String) -> String {
-    let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-
-    let treeMap = buildTreeMap(input: inputStream)
-    let rowCount = treeMap.count
-    let colCount = treeMap[0].count
-
+  func partTwo() -> String {
     var max = -1
     treeMap.enumerated().forEach { row in
       row.element.enumerated().forEach { col in
@@ -50,22 +50,24 @@ struct Day8Answer: DayAnswer {
       row[col]
     }
   }
+  
   func downTrees(_ row: Int, _ col: Int, _ treeMap: [[Int]]) -> [Int] {
     let rowCnt = treeMap.count
     return treeMap[row+1..<rowCnt].map { row in
       row[col]
     }
   }
+
   func rightTrees(_ row: Int, _ col: Int, _ treeMap: [[Int]]) -> [Int] {
     let colCnt = treeMap[0].count
     return Array(treeMap[row][col+1..<colCnt])
   }
+
   func leftTrees(_ row: Int, _ col: Int, _ treeMap: [[Int]]) -> [Int] {
     return Array(treeMap[row][0..<col])
   }
 
   func scenicScore(row: Int, col: Int, treeMap: [[Int]]) -> Int {
-
     let cur = treeMap[row][col]
     let res = [
       upTrees(row, col, treeMap).reversed(),
@@ -119,18 +121,18 @@ struct Day8Answer: DayAnswer {
     }
     return false
   }
+}
 
-  func buildTreeMap(input: [String]) -> [[Int]] {
-    var treeMap = [[Int]]()
+func buildTreeMap(input: [String]) -> [[Int]] {
+  var treeMap = [[Int]]()
 
-    input.forEach { line in
-      var row = [Int]()
-      line.forEach { tree in
-        row.append(Int(String(tree)) ?? 0)
-      }
-      treeMap.append(row)
+  input.forEach { line in
+    var row = [Int]()
+    line.forEach { tree in
+      row.append(Int(String(tree)) ?? 0)
     }
-
-    return treeMap
+    treeMap.append(row)
   }
+
+  return treeMap
 }
