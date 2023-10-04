@@ -56,7 +56,27 @@ final class Day14Answer: DayAnswer {
   }
 
   func partTwo() -> String {
-    return ""
+    let floor = N + 2
+    map = Array(map[0...floor])
+    map[floor] = Array(repeating: Land.rock, count: map[0].count)
+
+    while true {
+      let next = fallenSandPosition(map, floor)
+      map[next.x][next.y] = .sand
+      if next == Point(0, 500) {
+        break
+      }
+    }
+//    printMap(map, 0...floor, 0..<800)
+    var count = 0
+    for i in 0...floor {
+      for j in 0..<800 {
+        if map[i][j] == .sand {
+          count += 1
+        }
+      }
+    }
+    return "\(count)"
   }
 
   private func fallenSandPosition(_ map: [[Land]], _ maxN: Int) -> Point {
