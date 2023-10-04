@@ -28,7 +28,7 @@ final class Day14Answer: DayAnswer {
       let p2 = Array(points.dropFirst())
 
       zip(p1,p2).forEach { (s, e) in
-        drawLine(&map, s, e)
+        drawLine(s, e)
       }
     }
   }
@@ -98,7 +98,7 @@ final class Day14Answer: DayAnswer {
     print("--------")
   }
 
-  private func drawLine(_ map: inout [[Land]], _ s: Point, _ e: Point) {
+  private func drawLine(_ s: Point, _ e: Point) {
     if s.x == e.x {
       if s.y > e.y {
         for i in e.y...s.y {

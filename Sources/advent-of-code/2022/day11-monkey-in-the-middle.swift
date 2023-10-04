@@ -56,7 +56,7 @@ final class Day11Answer: DayAnswer {
   func partTwo() -> String {
     var inspectCount = Array(repeating: 0, count: monkeys.count)
     let leastCommonMultiplier = monkeys.reduce(into: 1) { acc, cur in
-      acc = lcm(acc, cur.testDivisor)
+      acc = Math.lcm(acc, cur.testDivisor)
     }
 
     let transform = { x in x % leastCommonMultiplier }
@@ -101,22 +101,7 @@ final class Day11Answer: DayAnswer {
     }
   }
 
-  func gcd(_ x: Int, _ y: Int) -> Int {
-    var a = 0
-    var b = max(x, y)
-    var r = min(x, y)
-
-    while r != 0 {
-      a = b
-      b = r
-      r = a % b
-    }
-    return b
-  }
-
-  func lcm(_ x: Int, _ y: Int) -> Int {
-    return x / gcd(x, y) * y
-  }
+ 
 
   static func parseInput(_ inputStream: [String]) -> [Monkey] {
     let digitRegex = Regex {
