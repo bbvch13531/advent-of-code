@@ -2,12 +2,12 @@ import Algorithms
 import Foundation
 import RegexBuilder
 
-class Day7Answer: DayAnswer {
+final class Day7Answer: DayAnswer {
   let root: Directory
   var queue: [Directory]
   var dirSizes = [Int]()
 
-  required init(_ input: String) {
+  init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines)
 
     self.root = Day7Answer.buildDirectory(input: inputStream)

@@ -31,7 +31,7 @@ struct Day3Answer: DayAnswer {
       .map { $0.first }
       .compactMap { $0 }
       .map(toggleCase)
-    
+
     let score = commonChars.reduce(0, +)
     return String(score)
   }

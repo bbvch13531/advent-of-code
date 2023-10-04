@@ -4,11 +4,11 @@ import RegexBuilder
 
 typealias Procedure = (n: Int, from: Int, to: Int)
 
-class Day5Answer: DayAnswer {
+final class Day5Answer: DayAnswer {
   var stacks: [Stack<Character>]
   let procedures: [Procedure]
 
-  required init(_ input: String) {
+  init(_ input: String) {
     let inputArr = input.components(separatedBy: .newlines).filter { $0.count != 0 }
     let (stacks, procedures) = parseInput(inputArr)
     self.stacks = stacks

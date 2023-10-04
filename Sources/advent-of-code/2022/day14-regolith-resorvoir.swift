@@ -7,13 +7,13 @@ enum Land: Int {
   case sand = 2
 }
 
-class Day14Answer: DayAnswer {
+final class Day14Answer: DayAnswer {
   var N = 0
   var minM = Int.max
   var maxM = 0
   var map = Array(repeating: Array(repeating: Land.air, count: 800), count: 300)
 
-  required init(_ input: String) {
+  init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
 
     inputStream.forEach {

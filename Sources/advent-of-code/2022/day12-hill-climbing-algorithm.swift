@@ -2,7 +2,7 @@ import Algorithms
 import Collections
 import Foundation
 
-class Day12Answer: DayAnswer {
+final class Day12Answer: DayAnswer {
   let inputStream: [String]
   var start = PointValue.none
   var end = PointValue.none
@@ -13,7 +13,7 @@ class Day12Answer: DayAnswer {
   var queue = [PointValue]()
   var answer = 0
 
-  required init(_ input: String) {
+  init(_ input: String) {
     self.inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
   }
 
