@@ -37,7 +37,7 @@ extension Point: Hashable {
 }
 
 extension Point {
-  func range(for distance: Int, at row: Int) -> ClosedRange<Int>? {
+  func rowRange(for distance: Int, at row: Int) -> ClosedRange<Int>? {
     if row < self.x {
       let s = self.y - distance + self.x - row
       let e = self.y + distance - self.x + row

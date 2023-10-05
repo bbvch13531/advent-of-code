@@ -9,10 +9,8 @@ struct Day15Answer: DayAnswer {
   }
 
   var signals = [Signal]()
-
   var distances = [Int]()
   var maxCol = 0
-  let targetRow = 2000000
 
   init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
@@ -30,8 +28,10 @@ struct Day15Answer: DayAnswer {
   }
 
   func partOne() -> String {
+    let targetRow = 2000000
+
     let ranges = signals.compactMap { signal in
-      signal.sensor.range(for: signal.distance, at: targetRow)
+      signal.sensor.rowRange(for: signal.distance, at: targetRow)
     }
 
     let combinedRanges = combineRanges(ranges)
@@ -41,13 +41,31 @@ struct Day15Answer: DayAnswer {
     let occupied =
     signals.map { $0.sensor }.filter { $0.x == targetRow } +
     signals.map { $0.beacon }.filter { $0.x == targetRow }
-
     return "\(count + Set(occupied).count)"
   }
 
   func partTwo() -> String {
-    return ""
+    let maxNum = 4000000
+    var targetRow = 0
+    var targetCol = 0
+
+    for row in 0...maxNum {
+      let ranges = signals.compactMap { signal in
+        signal.sensor.rowRange(for: signal.distance, at: row)
+      }
+
+      let combinedRanges = combineRanges(ranges)
+      if combinedRanges.count != 1 {
+        targetRow = row
+        targetCol = combinedRanges.first!.upperBound + 1
+        break
+      }
+    }
+    let ans = targetRow + maxNum * targetCol
+
+    return "\(ans)"
   }
+
 
   private func parseInput(_ input: String) -> Signal {
     let coordinateRegex = Regex {
@@ -79,7 +97,7 @@ struct Day15Answer: DayAnswer {
       if accumulator.upperBound >= range.upperBound {
         // already inside
         continue
-      } else if accumulator.upperBound >= range.lowerBound  {
+      } else if accumulator.upperBound + 1 >= range.lowerBound {
         // extend end
         accumulator = (accumulator.lowerBound...range.upperBound)
       } else if accumulator.upperBound <= range.lowerBound  {
