@@ -19,6 +19,10 @@ public struct Point {
       return Point(x+1, y-1)
     }
   }
+
+  public func manhattanDistance(to point: Point) -> Int {
+    return abs(self.x - point.x) + abs(self.y - point.y)
+  }
 }
 
 extension Point: Hashable {
@@ -29,6 +33,20 @@ extension Point: Hashable {
   public func hash(into hasher: inout Hasher) {
     hasher.combine(x)
     hasher.combine(y)
+  }
+}
+
+extension Point {
+  func range(for distance: Int, at row: Int) -> ClosedRange<Int>? {
+    if row < self.x {
+      let s = self.y - distance + self.x - row
+      let e = self.y + distance - self.x + row
+      return s <= e ? s...e : nil
+    } else {
+      let s = self.y - distance - self.x + row
+      let e = self.y + distance + self.x - row
+      return s <= e ? s...e : nil
+    }
   }
 }
 

@@ -81,16 +81,16 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--day 14"
+            argument = "--day 15"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--part 2"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "--part 1"
-            isEnabled = "NO">
+            isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
    </LaunchAction>
