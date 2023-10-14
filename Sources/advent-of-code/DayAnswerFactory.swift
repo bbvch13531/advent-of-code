@@ -17,7 +17,8 @@ public class DayAnswerFactory {
     Day12Answer.self,
     Day13Answer.self,
     Day14Answer.self,
-    Day15Answer.self
+    Day15Answer.self,
+    Day16Answer.self,
   ]
 
   public func generate(day: Int, input: String) -> DayAnswer? {

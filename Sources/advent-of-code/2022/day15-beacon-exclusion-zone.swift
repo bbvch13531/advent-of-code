@@ -66,7 +66,6 @@ struct Day15Answer: DayAnswer {
     return "\(ans)"
   }
 
-
   private func parseInput(_ input: String) -> Signal {
     let coordinateRegex = Regex {
       Capture {
