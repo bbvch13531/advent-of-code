@@ -1,13 +1,13 @@
 import Foundation
 import RegexBuilder
 
-struct Day16Answer: DayAnswer {
+struct Y2022Day16Answer: DayAnswer {
   init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
     let res = inputStream.map { parseInput($0) }
-		
-		var map = [String:[Path]]()
-		var flowRate = [String:Int]()
+    let N = res.count
+    var map = [String: [Path]]()
+		var flowRate = [String: Int]()
 
 		for (id, value, next) in res {
 //			print(id, value, next)
@@ -29,6 +29,29 @@ struct Day16Answer: DayAnswer {
 				print(p.key, p.value)
 			}
 		}
+
+    var visited = Array<Bool>.init(repeating: false, count: N)
+    
+    var queue = ["AA"]
+
+    while !queue.isEmpty {
+      let cur = queue.removeFirst()
+      
+      // if cur to X and X to Y, X is 0
+      // connect cur to Y distance 2
+      
+      map[cur]?.forEach { p in 
+        if p.distance == 0 {
+          queue.append(p.d)
+        }
+      }
+    }
+
+    var test = [String: Int]()
+    test["asd", default: 3]
+
+
+    
   }
 
   func partOne() -> String {
@@ -60,7 +83,7 @@ struct Day16Answer: DayAnswer {
     let id = String(match.1)
     let pressure = match.2
     let leads = match.3.components(separatedBy: ",").map { $0.trimmingCharacters(in: .whitespaces) }
-//    print(id, pressure, leads)
+
     return (id, pressure, leads)
   }
 }

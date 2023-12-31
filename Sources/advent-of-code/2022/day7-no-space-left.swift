@@ -2,7 +2,7 @@ import Algorithms
 import Foundation
 import RegexBuilder
 
-final class Day7Answer: DayAnswer {
+final class Y2022Day7Answer: DayAnswer {
   let root: Directory
   var queue: [Directory]
   var dirSizes = [Int]()
@@ -10,7 +10,7 @@ final class Day7Answer: DayAnswer {
   init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines)
 
-    self.root = Day7Answer.buildDirectory(input: inputStream)
+    self.root = Y2022Day7Answer.buildDirectory(input: inputStream)
     self.queue = [Directory](arrayLiteral: root)
   }
 

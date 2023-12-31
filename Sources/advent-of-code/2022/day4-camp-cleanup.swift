@@ -2,7 +2,7 @@ import Foundation
 import Algorithms
 import RegexBuilder
 
-final class Day4Answer: DayAnswer {
+final class Y2022Day4Answer: DayAnswer {
   let regex = Regex {
     TryCapture {
       OneOrMore(.digit)

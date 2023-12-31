@@ -78,10 +78,14 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "--small"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--year 2022"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--day 16"
+            argument = "--day 2"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

@@ -1,7 +1,7 @@
 import Foundation
 import RegexBuilder
 
-struct Day15Answer: DayAnswer {
+struct Y2022Day15Answer: DayAnswer {
   struct Signal {
     let sensor: Point
     let beacon: Point

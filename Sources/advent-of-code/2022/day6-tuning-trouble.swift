@@ -1,7 +1,7 @@
 import Foundation
 import Algorithms
 
-struct Day6Answer: DayAnswer {
+struct Y2022Day6Answer: DayAnswer {
   let inputString: String
 
   init(_ input: String) {

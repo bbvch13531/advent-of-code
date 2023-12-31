@@ -3,6 +3,9 @@ import ArgumentParser
 import advent_of_code
 
 struct AdventOfCode: ParsableCommand {
+  @Option(name: [.short, .customLong("year")], help: "Year to solve problem")
+  var year: Int
+
   @Option(name: [.short, .customLong("day")], help: "Day to solve problem")
   var day: Int
 
@@ -20,7 +23,7 @@ struct AdventOfCode: ParsableCommand {
       print("Resource file does not exist")
       return
     }
-    guard let dayAnswer = factory.generate(day: day, input: input) else {
+    guard let dayAnswer = factory.generate(year: year, day: day, input: input) else {
       print("Day\(day) is not found")
       return
     }

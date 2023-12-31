@@ -1,6 +1,6 @@
 import Foundation
 
-struct Day8Answer: DayAnswer {
+struct Y2022Day8Answer: DayAnswer {
   let treeMap: [[Int]]
   let rowCount: Int
   let colCount: Int

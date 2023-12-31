@@ -2,7 +2,7 @@ import Foundation
 import Algorithms
 import RegexBuilder
 
-final class Day11Answer: DayAnswer {
+final class Y2022Day11Answer: DayAnswer {
   struct Monkey {
     let id: Int
     var items: [Int]
@@ -18,7 +18,7 @@ final class Day11Answer: DayAnswer {
 
   init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
-    self.monkeys = Day11Answer.parseInput(inputStream)
+    self.monkeys = Y2022Day11Answer.parseInput(inputStream)
   }
 
   func partOne() -> String {

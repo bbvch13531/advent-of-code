@@ -7,7 +7,7 @@ enum Land: Int {
   case sand = 2
 }
 
-final class Day14Answer: DayAnswer {
+final class Y2022Day14Answer: DayAnswer {
   var N = 0
   var minM = Int.max
   var maxM = 0

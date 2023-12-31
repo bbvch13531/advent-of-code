@@ -2,7 +2,7 @@ import Algorithms
 import Collections
 import Foundation
 
-final class Day12Answer: DayAnswer {
+final class Y2022Day12Answer: DayAnswer {
   let inputStream: [String]
   var start = PointValue.none
   var end = PointValue.none

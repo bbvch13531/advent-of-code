@@ -4,7 +4,7 @@ import RegexBuilder
 
 typealias Procedure = (n: Int, from: Int, to: Int)
 
-final class Day5Answer: DayAnswer {
+final class Y2022Day5Answer: DayAnswer {
   var stacks: [Stack<Character>]
   let procedures: [Procedure]
 
