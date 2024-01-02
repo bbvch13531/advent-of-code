@@ -18,13 +18,13 @@ struct AdventOfCode: ParsableCommand {
   mutating func run() throws {
     let factory = DayAnswerFactory()
 
-    let path = inputPath(day, small)
+    let path = inputPath(year, day, small)
     guard let input = try? String(contentsOfFile: path, encoding: .utf8) else {
       print("Resource file does not exist")
       return
     }
     guard let dayAnswer = factory.generate(year: year, day: day, input: input) else {
-      print("Day\(day) is not found")
+      print("Year\(year) Day\(day) is not found")
       return
     }
     if part == 1 {

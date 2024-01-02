@@ -1,6 +1,6 @@
 import Foundation
 
-struct Y2022Day9Answer: DayAnswer {
+final class Y2022Day9Answer: DayAnswer {
   let inputStream: [String]
 
   init(_ input: String) {

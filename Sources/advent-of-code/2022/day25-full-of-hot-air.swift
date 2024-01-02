@@ -1,6 +1,6 @@
 import Foundation
 
-struct Y2022Day25Answer: DayAnswer {
+final class Y2022Day25Answer: DayAnswer {
   let digits: [String]
   enum Numbers: String {
     case one = "1"

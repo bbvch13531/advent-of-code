@@ -1,7 +1,7 @@
 import Foundation
 import Algorithms
 
-struct Y2022Day3Answer: DayAnswer {
+final class Y2022Day3Answer: DayAnswer {
   let inputArr: [String]
 
   init(_ input: String) {

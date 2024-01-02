@@ -2,10 +2,10 @@ import Foundation
 import Algorithms
 import Collections
 
-class Y2022Day2Answer: DayAnswer {
+final class Y2022Day2Answer: DayAnswer {
   let game: [(Opporcp, Myrcp)]
 
-  required init(_ input: String) {
+  init(_ input: String) {
     let inputArr = input.components(separatedBy: .newlines)
     self.game = inputArr.reduce(into: [(Opporcp, Myrcp)]()) { acc, cur in
       let choices = cur.split(separator: " ")

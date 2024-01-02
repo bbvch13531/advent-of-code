@@ -1,10 +1,10 @@
 import Foundation
 import Algorithms
 
-class Y2022Day1Answer: DayAnswer {
+final class Y2022Day1Answer: DayAnswer {
   let inputStream: [[Int]]
 
-  required init(_ input: String) {
+  init(_ input: String) {
     let inputarr = input.components(separatedBy: .newlines)
     self.inputStream = readInt2dArr(input: inputarr)
   }

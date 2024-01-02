@@ -4,7 +4,7 @@ import Algorithms
 typealias Step = (cycle: Int, value: Int)
 typealias Row = (sprite: String, value: Int)
 
-struct Y2022Day10Answer: DayAnswer {
+final class Y2022Day10Answer: DayAnswer {
   var result = [Step(cycle: 0, value: 1)]
 
   init(_ input: String) {

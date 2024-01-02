@@ -48,7 +48,7 @@ extension Packet: Decodable {
   }
 }
 
-struct Y2022Day13Answer: DayAnswer {
+final class Y2022Day13Answer: DayAnswer {
   let inputStream: [String]
   let pairs: ChunksOfCountCollection<[String]>
   let decoder = JSONDecoder()

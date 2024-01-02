@@ -1,7 +1,7 @@
 import Foundation
 import RegexBuilder
 
-struct Y2022Day16Answer: DayAnswer {
+final class Y2022Day16Answer: DayAnswer {
   init(_ input: String) {
     let inputStream = input.components(separatedBy: .newlines).filter { $0.count != 0 }
     let res = inputStream.map { parseInput($0) }
