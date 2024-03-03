@@ -5,7 +5,7 @@ final class Y2023Day1Answer: DayAnswer {
   let strings: [String]
 
   init(_ input: String) {
-    self.strings =  input.components(separatedBy: .newlines).filter { $0.count != 0 }
+    self.strings = input.components(separatedBy: .newlines).filter { $0.count != 0 }
   }
 
   private func calibrate(string: String) -> Int {
@@ -33,7 +33,8 @@ final class Y2023Day1Answer: DayAnswer {
 
     return "\(answer)"
   }
-  func replaceSpellDigit(in string: String) -> String {
+
+  private func replaceSpellDigit(in string: String) -> String {
     let spellingDigits = [
         "one": "one1one",
         "two": "two2two",

@@ -26,10 +26,33 @@ final class Y2023Day2Answer: DayAnswer {
   }
   
   func partTwo() -> String {
-    return ""
+    var numberSum = 0
+    for game in games {
+      let minSet = minCube(set: game.cubes)
+      let multiplyScore = minSet.reduce(into: 1) { acc, cur in
+        acc *= cur.number
+      }
+      numberSum += multiplyScore
+    }
+
+    return "\(numberSum)"
   }
-  
-  func fillEmptyColor(set: [Cube]) -> [Cube] {
+
+  private func minCube(set: [[Cube]]) -> [Cube] {
+    var colors = [Cube]()
+    for color in CubeColor.allCases {
+      if color == .unknown { continue }
+      let cubes = set.map { cubes in
+        cubes.filter { $0.color == color && $0.number != -1 }
+      }.flatMap { $0 }
+        .sorted { $0.number > $1.number }
+      colors.append(cubes.first ?? Cube.init(color: .unknown, number: -1))
+    }
+
+    return colors
+  }
+
+  private func fillEmptyColor(set: [Cube]) -> [Cube] {
     var colorSet = Set(CubeColor.allCases)
     colorSet.remove(.unknown)
     let targetSet = Set(set.map { $0.color })
@@ -42,7 +65,7 @@ final class Y2023Day2Answer: DayAnswer {
     return result
   }
 
-  func isPossibleSet(set: [Cube]) -> Bool {
+  private func isPossibleSet(set: [Cube]) -> Bool {
     let maxSet = [
       Cube(color: .red, number: 12),
       Cube(color: .green, number: 13),
@@ -55,11 +78,9 @@ final class Y2023Day2Answer: DayAnswer {
     let sortedSet = filledSet.sorted { lhs, rhs in
       lhs.color > rhs.color
     }
-//    print(sortedSet)
     let res = zip(maxSet, sortedSet).map { maxBag, bag in
       bag <= maxBag
     }
-//    print(res)
     return res.contains(false)
   }
 
