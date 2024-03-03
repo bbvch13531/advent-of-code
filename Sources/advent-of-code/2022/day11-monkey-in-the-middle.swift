@@ -101,8 +101,6 @@ final class Y2022Day11Answer: DayAnswer {
     }
   }
 
- 
-
   static func parseInput(_ inputStream: [String]) -> [Monkey] {
     let digitRegex = Regex {
       TryCapture {
